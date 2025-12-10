@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartLib</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-primary">📚 SmartLib</h1>
+        <div>
+            <a href="/ara" class="btn btn-success">+ Yeni Kitap Ara & Ekle</a>
+        </div>
+    </div>
+
+    <div class="btn-group mb-4">
+        <a href="/" class="btn btn-outline-secondary">Tümü</a>
+        <a href="/?durum=Okunacak" class="btn btn-outline-primary">Okunacaklar</a>
+        <a href="/?durum=Okunuyor" class="btn btn-outline-warning">Okunuyor</a>
+        <a href="/?durum=Bitti" class="btn btn-outline-success">Bitenler</a>
+    </div>
+
+    <div class="row">
+        {% for kitap in kitaplar %}
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{{ kitap.resim }}" class="card-img-top" style="height: 250px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ kitap.baslik }}</h5>
+                    <p class="card-text text-muted">{{ kitap.yazar }}</p>
+                    <span class="badge bg-info">{{ kitap.durum }}</span>
+                    {% if kitap.puan > 0 %} <span class="text-warning">⭐ {{ kitap.puan }}/5</span> {% endif %}
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="/detay/{{ kitap.id }}" class="btn btn-sm btn-primary">Detay & QR</a>
+                    <a href="/sil/{{ kitap.id }}" class="btn btn-sm btn-danger" onclick="return confirm('Silinsin mi?')">Sil</a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12 text-center mt-5">
+            <p class="lead text-muted">Kütüphanen boş. "Yeni Kitap Ara" butonuna bas!</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

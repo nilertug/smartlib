@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kitap Detayı</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light container mt-5">
+    <a href="/" class="btn btn-secondary mb-3">← Kütüphaneye Dön</a>
+    
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <img src="{{ kitap.resim }}" class="img-fluid rounded shadow mb-3">
+            <h4>{{ kitap.baslik }}</h4>
+            <p>{{ kitap.yazar }}</p>
+            
+            <div class="card p-3 bg-white">
+                <h6>📱 Paylaşılabilir QR Kod</h6>
+                <img src="/qr_uret/{{ kitap.id }}" class="img-fluid mb-2">
+                <small class="text-muted">Bu kodu okutan arkadaşın aşağıdaki notlarını görebilir!</small>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card p-4">
+                <h3>✍️ Kişisel Bilgi Yönetimi</h3>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label>Okuma Durumu:</label>
+                        <select name="durum" class="form-select">
+                            <option value="Okunacak" {% if kitap.durum == 'Okunacak' %}selected{% endif %}>Okunacak</option>
+                            <option value="Okunuyor" {% if kitap.durum == 'Okunuyor' %}selected{% endif %}>Okunuyor</option>
+                            <option value="Bitti" {% if kitap.durum == 'Bitti' %}selected{% endif %}>Bitti</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Puanın (1-5):</label>
+                        <input type="number" name="puan" class="form-control" min="1" max="5" value="{{ kitap.puan }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Kişisel Notların (Arkadaşın bunları görecek):</label>
+                        <textarea name="notlar" class="form-control" rows="5" placeholder="Bu kitap hakkında ne düşünüyorsun?">{{ kitap.notlar }}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Değişiklikleri Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
