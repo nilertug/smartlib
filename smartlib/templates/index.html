@@ -13,6 +13,47 @@
         </div>
     </div>
 
+    {% if oneriler %}
+    <div class="card bg-info bg-opacity-10 border-info mb-4">
+        <div class="card-body">
+            <h4 class="text-info-emphasis">
+                🌤️ Bugün Ankara'da Hava: 
+                {% if hava == 'Clear' %} Güneşli ☀️
+                {% elif hava == 'Rain' %} Yağmurlu 🌧️
+                {% elif hava == 'Clouds' %} Bulutlu ☁️
+                {% elif hava == 'Snow' %} Karlı ❄️
+                {% else %} {{ hava }} {% endif %}
+                ({{ sicaklik|round|int }}°C)
+            </h4>
+            <p class="text-muted">Günün modu <strong>{{ tur }}</strong>! İşte hava durumuna göre sana özel kitap önerileri:</p>
+            
+            <div class="row">
+                {% for oneri in oneriler %}
+                <div class="col-md-4 mb-2">
+                    <div class="d-flex align-items-center bg-white p-2 rounded shadow-sm h-100">
+                        <img src="{{ oneri.resim }}" style="height: 80px; width: 60px; object-fit: cover;" class="rounded me-3">
+                        <div class="w-100">
+                            <h6 class="mb-1 text-truncate" style="font-size: 0.9rem; max-width: 150px;">{{ oneri.baslik }}</h6>
+                            <small class="text-muted d-block text-truncate" style="max-width: 150px;">{{ oneri.yazar }}</small>
+                            
+                            <div class="mt-2 d-flex gap-2">
+                                <a href="{{ oneri.link }}" target="_blank" class="badge bg-primary text-decoration-none">İncele</a>
+                                <form action="/ekle" method="POST" class="d-inline">
+                                    <input type="hidden" name="baslik" value="{{ oneri.baslik }}">
+                                    <input type="hidden" name="yazar" value="{{ oneri.yazar }}">
+                                    <input type="hidden" name="resim" value="{{ oneri.resim }}">
+                                    <input type="hidden" name="sayfa" value="0">
+                                    <button type="submit" class="badge bg-success border-0" style="cursor:pointer;">+ Kütüphaneme Ekle</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="btn-group mb-4">
         <a href="/" class="btn btn-outline-secondary">Tümü</a>
         <a href="/?durum=Okunacak" class="btn btn-outline-primary">Okunacaklar</a>
