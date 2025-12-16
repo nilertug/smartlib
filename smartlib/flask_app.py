@@ -25,11 +25,10 @@ with app.app_context():
 
 
 def get_weather(city="Ankara"):
-    # Open-Meteo API (Key gerektirmez)
     url = "https://api.open-meteo.com/v1/forecast?latitude=39.93&longitude=32.85&current_weather=true"
     
     try:
-        response = requests.get(url, timeout=5) # 5 saniye içinde cevap gelmezse iptal et
+        response = requests.get(url, timeout=5) 
         data = response.json()
         
         wmo_code = data['current_weather']['weathercode']
@@ -49,8 +48,7 @@ def get_weather(city="Ankara"):
         return condition, temp
         
     except:
-        # HATA BURADAYDI: Burası boş kalamaz.
-        # Hata olursa varsayılan değer döndürüyoruz:
+        
         return "Clear", 20 
 
 def get_book_recommendations(weather_condition):
@@ -129,7 +127,7 @@ def ekle():
     yeni_kitap = Kitap(
         baslik=request.form.get('baslik'),
         yazar=request.form.get('yazar'),
-        sayfa=request.form.get('sayfa', 0), # Sayfa sayısı boş gelirse 0 olsun
+        sayfa=request.form.get('sayfa', 0), 
         resim=request.form.get('resim')
     )
     db.session.add(yeni_kitap)
@@ -170,3 +168,4 @@ def paylasim(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
